@@ -8,14 +8,14 @@ export const Landing = () => {
         To view <i>Cross-site scripting (XSS)</i> vulnerability, check out:
       </Text>
       <Link to="/first-category">
-        <Button>First Category</Button>
+        <Button colorScheme="purple">First Category</Button>
       </Link>
 
       <Text fontSize="20" mt="4">
         To view <i>Broken Access Control</i> vulnerability, check out:
       </Text>
       <Link to="/second-category">
-        <Button>Second Category</Button>
+        <Button colorScheme="purple">Second Category</Button>
       </Link>
     </Flex>
   );
