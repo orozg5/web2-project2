@@ -1,8 +1,9 @@
 import { extendTheme } from "@chakra-ui/react";
-import { Input } from "./components/input";
-import { Button } from "./components/button";
-import { Switch } from './components/switch'
 import { Textarea } from "./components/textarea";
+import { Button } from "./components/button";
+import { Switch } from "./components/switch";
+import { Input } from "./components/input";
+import { Menu } from "./components/menu";
 
 export const theme = extendTheme({
   colors: {
@@ -28,6 +29,7 @@ export const theme = extendTheme({
     Input,
     Button,
     Switch,
-    Textarea
+    Textarea,
+    Menu,
   },
 });

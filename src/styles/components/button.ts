@@ -5,6 +5,7 @@ const solid = defineStyle({
   bgColor: "purple.medium",
   _hover: { bgColor: "purple.light" },
   fontWeight: "normal",
+  color: "white",
 });
 
 export const Button = defineStyleConfig({
