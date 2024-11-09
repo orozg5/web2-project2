@@ -1,9 +1,54 @@
-import { Flex, Heading, Text } from "@chakra-ui/react";
-import { GrShieldSecurity } from "react-icons/gr";
+import { Button, Flex, Heading, Text, useDisclosure } from "@chakra-ui/react";
 import { Link, useLocation } from "react-router-dom";
+import { GrShieldSecurity } from "react-icons/gr";
+import { useEffect, useState } from "react";
+import { Login } from "./Login";
 
 export const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { pathname } = useLocation();
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/api/user", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        await response.json();
+        if (response.ok) {
+          setIsLoggedIn(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getUser();
+  }, []);
+
+  const logout = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/api/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+      await response.json();
+      if (response.ok) {
+        setIsLoggedIn(false);
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Flex justify="space-between" p="16px" mx="16px">
@@ -25,7 +70,11 @@ export const Navbar = () => {
             Second Category
           </Text>
         </Link>
+        {!isLoggedIn && <Button onClick={onOpen}>Login</Button>}
+        {isLoggedIn && <Button onClick={logout}>Logout</Button>}
       </Flex>
+
+      <Login isOpen={isOpen} onClose={onClose} />
     </Flex>
   );
 };

@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Heading, Textarea, Text, Highlight } from "@chakra-ui/react";
 import { CustomSwitch } from "../components/CustomSwitch";
+import { sanitize } from "../utils/sanitize";
 import { useState } from "react";
-import DOMPurify from "dompurify";
 
 export const FirstCategory = () => {
   const [output, setOutput] = useState("");
@@ -9,9 +9,24 @@ export const FirstCategory = () => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isAttacked, setIsAttacked] = useState<boolean>(false);
 
-  const handleSubmit = () => {
+  const base = "local";
+  const url = base == "local" ? "http://localhost:8080" : "https://goroz-w2p2.onrender.com";
+
+  const handleSubmit = async () => {
     if (isChecked) {
-      setOutput(DOMPurify.sanitize(text));
+      try {
+        const res = await fetch(`${url}/api/xss`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data: sanitize(text) }),
+        });
+        const data = await res.json();
+        if (res.ok) setOutput(data.text);
+      } catch (error) {
+        console.error(error);
+      }
       setIsAttacked(false);
     } else {
       setOutput(text);
