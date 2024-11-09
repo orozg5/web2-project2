@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Login } from "./Login";
 
 export const Navbar = () => {
+  const url = "https://goroz-w2p2.onrender.com";
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { pathname } = useLocation();
@@ -12,7 +13,7 @@ export const Navbar = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/user", {
+        const response = await fetch(`${url}/api/user`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -33,7 +34,7 @@ export const Navbar = () => {
 
   const logout = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/logout", {
+      const response = await fetch(`${url}/api/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

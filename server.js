@@ -7,6 +7,8 @@ import { fileURLToPath } from "url";
 import { serialize, parse } from "cookie";
 import { SignJWT, jwtVerify } from "jose";
 
+const url = "https://goroz-w2p2.onrender.com";
+
 async function encrypt(payload) {
   const key = new TextEncoder().encode(process.env.REACT_APP_ENCRYPTION_KEY);
 
@@ -64,15 +66,17 @@ const supabase = createClient(process.env.REACT_APP_SUPABASE_URL || "", process.
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: url,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "Set-Cookie"],
     credentials: true,
   })
 );
-app.use(express.static("public"));
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, "dist")));
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -116,8 +120,8 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.post("/api/logout", async (req, res) => {
-  res.clearCookie('session');
-  res.status(200).json({message: "Succesfully logged out!"})
+  res.clearCookie("session");
+  res.status(200).json({ message: "Succesfully logged out!" });
 });
 
 app.get("/api/user", async (req, res) => {
@@ -146,6 +150,10 @@ app.post("/api/xss", async (req, res) => {
   } catch (err) {
     res.status(500);
   }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 app.listen(port, "0.0.0.0", () => {

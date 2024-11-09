@@ -4,13 +4,14 @@ import { IUser } from "../interfaces/IUser";
 import { useEffect, useState } from "react";
 
 export const SecondCategory = () => {
+  const url = "https://goroz-w2p2.onrender.com";
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [user, setUser] = useState<IUser>();
 
   useEffect(() => {
     const getUser = async () => {
       try {
-        const response = await fetch("http://localhost:8080/api/user", {
+        const response = await fetch(`${url}/api/user`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -36,7 +37,7 @@ export const SecondCategory = () => {
       <Heading size="md">Eg. 1.</Heading>
       <Text>To check out the page only admins have access to you will have to "Login" as an admin.</Text>
       <Box>
-        <Link href="http://localhost:8080/page">
+        <Link href={`${url}/page`}>
           <Button>Go to page</Button>
         </Link>
       </Box>

@@ -4,13 +4,11 @@ import { sanitize } from "../utils/sanitize";
 import { useState } from "react";
 
 export const FirstCategory = () => {
+  const url = "https://goroz-w2p2.onrender.com";
   const [output, setOutput] = useState("");
   const [text, setText] = useState<string>("");
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isAttacked, setIsAttacked] = useState<boolean>(false);
-
-  const base = "local";
-  const url = base == "local" ? "http://localhost:8080" : "https://goroz-w2p2.onrender.com";
 
   const handleSubmit = async () => {
     if (isChecked) {

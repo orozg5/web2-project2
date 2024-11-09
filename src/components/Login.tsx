@@ -16,6 +16,7 @@ import bcrypt from "bcryptjs";
 import { useState } from "react";
 
 export const Login = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const url = "https://goroz-w2p2.onrender.com";
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const toast = useToast();
@@ -42,13 +43,13 @@ export const Login = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => voi
   const handleSubmit = async (email: string, password: string) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     try {
-      const response = await fetch("http://localhost:8080/api/login", {
+      const response = await fetch(`${url}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email, password: hashedPassword }),
-        credentials: "include"
+        credentials: "include",
       });
       const data = await response.json();
       if (response.ok) {
